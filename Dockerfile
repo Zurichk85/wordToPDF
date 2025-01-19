@@ -8,11 +8,12 @@ WORKDIR /usr/src/app/
 COPY ./code /usr/src/app/
 COPY ./requirements.txt /usr/src/app/requirements.txt
 
-# Instalar solo los paquetes necesarios de LibreOffice
+# Instalar dependencias necesarias de LibreOffice
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice-common \
     libreoffice-core \
     libreoffice-writer \
+    fonts-dejavu-core \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,10 +25,8 @@ ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_ENV=production
 
-# Exponer el puerto 5000
+# Exponer el puerto que Render usará dinámicamente
 EXPOSE 5000
 
-# # Comando para ejecutar la aplicación
-# CMD ["python", "app.py"]
 # Comando para ejecutar la aplicación con Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]
