@@ -27,5 +27,7 @@ ENV FLASK_ENV=production
 # Exponer el puerto 5000
 EXPOSE 5000
 
-# Comando para ejecutar la aplicación
-CMD ["python", "app.py"]
+# # Comando para ejecutar la aplicación
+# CMD ["python", "app.py"]
+# Comando para ejecutar la aplicación con Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]

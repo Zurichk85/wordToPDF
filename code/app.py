@@ -5,6 +5,7 @@ import subprocess
 from PyPDF2 import PdfMerger
 import logging
 from flask import Flask, request, Response
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -117,4 +118,16 @@ def convert_docx_to_pdf_with_libreoffice(docx_path, pdf_path):
         return False
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    # Verifica si estamos en un entorno de desarrollo
+    print(f"FLASK_ENV: {os.environ.get('FLASK_ENV')}")
+    # limpiar_pdfs_al_inicio()
+    if os.environ.get('FLASK_ENV') == 'development':
+        print("Iniciando el servidor en modo de desarrollo...")
+        port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno
+        app.run(host="0.0.0.0", port=port)
+    else:
+        # Ejecuta Waitress en producción
+        print("Iniciando el servidor con Waitress...")
+        port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno
+        # serve(app, host="0.0.0.0", port=port)
+        serve(app, host="0.0.0.0", port=port, threads=4) 
