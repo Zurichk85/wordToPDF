@@ -1,0 +1,16 @@
+.\Scripts\Activate.ps1
+
+
+pip freeze > requirements.txt
+
+
+ngrok http http://localhost:8080
+
+ngrok http --domain=blatantly-closing-sheepdog.ngrok-free.app 5000
+
+
+Maquina de azure:
+d
+Adrianespi85-
+
+git remote set-url origin https://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@github.com/Zurichk/wordtopdfs.git
