@@ -23,10 +23,13 @@ RUN pip install --no-cache-dir --upgrade -r /usr/src/app/requirements.txt
 # Configurar variables de entorno para Flask
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_ENV=production
+# ENV FLASK_ENV=production
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=True
 
 # Exponer el puerto que Render usará dinámicamente
 EXPOSE 5000
 
-# Comando para ejecutar la aplicación con Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]
+CMD ["flask", "run", "--host", "0.0.0.0"]
+# # Comando para ejecutar la aplicación con Gunicorn
+# CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]

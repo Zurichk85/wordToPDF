@@ -112,18 +112,20 @@ def convert_docx_to_pdf_with_libreoffice(docx_path, pdf_path):
         logging.error(f"Error al convertir {docx_path} a PDF con LibreOffice: {str(e)}")
         return False
 
-if __name__ == "__main__":
-    # Configurar logging
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)  # Ejecutar la aplicación
+# if __name__ == "__main__":
+#     # Configurar logging
+#     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-    # Verifica si estamos en un entorno de desarrollo
-    print(f"FLASK_ENV: {os.environ.get('FLASK_ENV')}")
-    if os.environ.get("FLASK_ENV") == "development":
-        print("Iniciando el servidor en modo de desarrollo...")
-        port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno
-        app.run(host="0.0.0.0", port=port)
-    else:
-        # Ejecuta Waitress en producción
-        print("Iniciando el servidor con Waitress...")
-        port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno
-        serve(app, host="0.0.0.0", port=port, threads=4)
+#     # Verifica si estamos en un entorno de desarrollo
+#     print(f"FLASK_ENV: {os.environ.get('FLASK_ENV')}")
+#     if os.environ.get("FLASK_ENV") == "development":
+#         print("Iniciando el servidor en modo de desarrollo...")
+#         port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno
+#         app.run(host="0.0.0.0", port=port)
+#     else:
+#         # Ejecuta Waitress en producción
+#         print("Iniciando el servidor con Waitress...")
+#         port = int(os.environ.get("PORT", 5000))  # Usa el puerto de la variable de entorno
+#         serve(app, host="0.0.0.0", port=port, threads=4)
