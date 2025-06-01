@@ -53,8 +53,14 @@ def check_libreoffice():
 # Ruta para acceder a los ejemplos
 @app.route("/examples/<filename>", methods=["GET"])
 def get_example(filename):
-    return send_from_directory(os.path.join(app.root_path, 'static', 'examples'),
-                              filename)
+    example_dir = os.path.join(app.root_path, 'static', 'examples')
+    if not os.path.exists(os.path.join(example_dir, filename)):
+        logging.warning(f"Archivo de ejemplo no encontrado: {filename}")
+        return Response(
+            "Archivo de ejemplo no encontrado. Por favor, carga tu propio documento Word.",
+            status=404
+        )
+    return send_from_directory(example_dir, filename)
 
 @app.route("/hello", methods=["GET"])
 def hello_world():

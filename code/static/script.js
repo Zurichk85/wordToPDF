@@ -56,6 +56,9 @@ function loadExample(exampleFile) {
     fetch(`/examples/${exampleFile}`)
         .then(response => {
             if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error('El archivo de ejemplo no está disponible en este entorno');
+                }
                 throw new Error('No se pudo cargar el ejemplo');
             }
             return response.blob();
@@ -66,7 +69,19 @@ function loadExample(exampleFile) {
         })
         .catch(error => {
             console.error('Error cargando ejemplo:', error);
-            alert('No se pudo cargar el archivo de ejemplo');
+            
+            // Mostrar mensaje al usuario
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'error-container';
+            statusDiv.style.marginBottom = '20px';
+            statusDiv.innerHTML = `
+                <p><i class="fa-solid fa-circle-exclamation"></i> ${error.message}</p>
+                <p>Por favor, carga tu propio documento Word para probar la conversión.</p>
+            `;
+            
+            // Insertar mensaje después del contenedor de ejemplos
+            const examplesContainer = document.querySelector('.file-list-container');
+            examplesContainer.parentNode.insertBefore(statusDiv, examplesContainer.nextSibling);
         });
 }
 

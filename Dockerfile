@@ -26,10 +26,17 @@ RUN pip install --no-cache-dir --upgrade -r /usr/src/app/requirements.txt
 # Crear directorios necesarios
 RUN mkdir -p /usr/src/app/static/examples
 
-# Crear un documento de ejemplo simple
-RUN echo "<html><body><h1>Documento de Ejemplo</h1><p>Este es un documento de ejemplo para probar la conversión.</p></body></html>" > /tmp/ejemplo.html \
-    && libreoffice --headless --convert-to docx --outdir /usr/src/app/static/examples /tmp/ejemplo.html \
-    && mv /usr/src/app/static/examples/ejemplo.docx /usr/src/app/static/examples/documento_ejemplo.docx
+# Crear un documento de ejemplo simple usando python-docx
+RUN echo 'from docx import Document; \
+doc = Document(); \
+doc.add_heading("Documento de Ejemplo", 0); \
+doc.add_paragraph("Este es un documento de ejemplo para probar la conversión de Word a PDF."); \
+doc.add_heading("Características", level=1); \
+doc.add_paragraph("• Conversión rápida y precisa"); \
+doc.add_paragraph("• Mantiene el formato original"); \
+doc.add_paragraph("• Soporta documentos complejos"); \
+doc.save("/usr/src/app/static/examples/documento_ejemplo.docx")' > /tmp/create_example.py && \
+    python /tmp/create_example.py
 
 # Configurar variables de entorno para Flask
 ENV FLASK_APP=app_new.py
