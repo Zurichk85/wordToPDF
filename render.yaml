@@ -1,0 +1,15 @@
+services:
+  # Un servicio web que ejecuta el conversor Word a PDF
+  - type: web
+    name: wordtopdf-converter
+    env: docker
+    region: oregon  # Puedes cambiar la región según tus necesidades
+    plan: free  # Puedes cambiar a un plan de pago si necesitas más recursos
+    branch: main  # La rama de git que quieres desplegar
+    healthCheckPath: /hello
+    envVars:
+      - key: DOCKER
+        value: yes
+      - key: FLASK_ENV
+        value: production
+    autoDeploy: true

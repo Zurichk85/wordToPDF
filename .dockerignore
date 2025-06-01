@@ -1,0 +1,37 @@
+# Archivos y directorios del entorno virtual
+/Lib/
+/Include/
+/Scripts/
+/pyvenv.cfg
+
+# Archivos temporales
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Archivos de configuración IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos temporales de la aplicación
+/code/temp/
+*.pdf
+*.docx
+!code/static/examples/*.docx
+
+# Archivos de Git
+.git/
+.gitignore

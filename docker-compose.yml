@@ -1,21 +1,22 @@
 version: '3'
 services:
-  web:
+  wordtopdf:
     build: .
+    container_name: wordtopdf-converter
     ports:
       - "5000:5000"
     environment:
       - DOCKER=yes
+    volumes:
+      - ./code:/usr/src/app
+      - temp_data:/usr/src/app/temp
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/hello"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-  # chrome:
-  #     #image: selenium/standalone-chrome:latest
-  #     shm_size: 2gb
-  #     container_name: selenium-chrome
-  #     environment:
-  #       - SE_NODE_MAX_SESSIONS=5
-  #       - SE_NODE_SESSION_TIMEOUT=30
-  #       - SE_VNC_NO_PASSWORD=1
-  #       - SE_NODE_MAX_SESSIONS=2
-  #     restart: always
-  #     ports:
-  #       - "4444:4444"
+volumes:
+  temp_data:

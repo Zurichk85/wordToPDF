@@ -1,0 +1,53 @@
+# Entorno virtual - exclusiones específicas para este proyecto
+/Lib/
+/Include/
+/Scripts/
+/pyvenv.cfg
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Archivos temporales
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Archivos de configuración IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos temporales de la aplicación
+temp/
+*.pdf
+*.docx
+!ejemplos/*.docx  # Mantener ejemplos de documentos si existen
+
+# Caché de Docker
+.docker/

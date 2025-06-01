@@ -14,22 +14,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice-core \
     libreoffice-writer \
     fonts-dejavu-core \
+    fonts-liberation \
+    fonts-noto \
+    fonts-noto-cjk \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar dependencias de Python
 RUN pip install --no-cache-dir --upgrade -r /usr/src/app/requirements.txt
 
+# Crear directorios necesarios
+RUN mkdir -p /usr/src/app/static/examples
+
+# Crear un documento de ejemplo simple
+RUN echo "<html><body><h1>Documento de Ejemplo</h1><p>Este es un documento de ejemplo para probar la conversión.</p></body></html>" > /tmp/ejemplo.html \
+    && libreoffice --headless --convert-to docx --outdir /usr/src/app/static/examples /tmp/ejemplo.html \
+    && mv /usr/src/app/static/examples/ejemplo.docx /usr/src/app/static/examples/documento_ejemplo.docx
+
 # Configurar variables de entorno para Flask
-ENV FLASK_APP=app.py
+ENV FLASK_APP=app_new.py
 ENV FLASK_RUN_HOST=0.0.0.0
-# ENV FLASK_ENV=production
-ENV FLASK_ENV=development
-ENV FLASK_DEBUG=True
+# PORT lo establecerá automáticamente Render
+ENV PYTHONUNBUFFERED=1
+# Indicar que estamos en un entorno de producción en Docker
+ENV DOCKER=yes
 
-# Exponer el puerto que Render usará dinámicamente
-EXPOSE 5000
+# Exponer el puerto (Render asignará su propio puerto)
+EXPOSE $PORT
 
-CMD ["flask", "run", "--host", "0.0.0.0"]
-# # Comando para ejecutar la aplicación con Gunicorn
-# CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]
+# Comando para ejecutar la aplicación con Waitress para producción
+CMD python app_new.py
